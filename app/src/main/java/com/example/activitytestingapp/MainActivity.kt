@@ -11,15 +11,20 @@ class MainActivity : AppCompatActivity(){
 
    private var displayTextView = 1
 
+
+
     companion object {
-        private val text_key: Any = TODO()
-        private val TAG = "Main Activity"
-        private val KEY_TEXT = text_key
+        const val TAG = "Main Activity"
+        const val KEY_TEXT = "KEY_TEXT"
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate called")
+       // if (savedInstanceState != null){
+        //    displayTextView = savedInstanceState.getInt(KEY_TEXT,1)
+       // }
+
         setContentView(R.layout.activity_main)
 
         val displayButton: Button = findViewById(R.id.addButton)
@@ -64,8 +69,15 @@ class MainActivity : AppCompatActivity(){
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //outState.putInt(KEY_TEXT, text_key)
+        outState.putInt(KEY_TEXT, displayTextView)
         Log.d(TAG, "onSaveInstance called")
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Log.d(TAG, "onRestoreInstanceState called")
+        displayTextView = savedInstanceState.getInt(KEY_TEXT)
     }
 
     override fun onDestroy() {
