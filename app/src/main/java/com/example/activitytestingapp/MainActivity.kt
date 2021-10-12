@@ -20,12 +20,9 @@ class MainActivity : AppCompatActivity(){
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate called")
-       // if (savedInstanceState != null){
-        //    displayTextView = savedInstanceState.getInt(KEY_TEXT,1)
-       // }
-
         setContentView(R.layout.activity_main)
+
+        Log.d(TAG, "onCreate called")
 
         val displayButton: Button = findViewById(R.id.addButton)
         val textResult: TextView = findViewById(R.id.displayTextView)
@@ -38,8 +35,21 @@ class MainActivity : AppCompatActivity(){
             Snackbar.make(textResult,"Value $originalValue changed to $newValue",
                 Snackbar.LENGTH_LONG).show()
         }
-        
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val viewResult: TextView = findViewById(R.id.displayTextView)
+        outState.putString(KEY_TEXT, viewResult.text.toString() )
+        Log.d(TAG, "onSaveInstance called")
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val viewResult: TextView = findViewById(R.id.displayTextView)
+        viewResult.text = savedInstanceState.getString(KEY_TEXT)
+        Log.d(TAG, "onRestoreInstanceState called")
     }
 
     override fun onStart() {
@@ -65,19 +75,6 @@ class MainActivity : AppCompatActivity(){
     override fun onRestart() {
         super.onRestart()
         Log.d(TAG,"onRestart")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(KEY_TEXT, displayTextView)
-        Log.d(TAG, "onSaveInstance called")
-
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        Log.d(TAG, "onRestoreInstanceState called")
-        displayTextView = savedInstanceState.getInt(KEY_TEXT)
     }
 
     override fun onDestroy() {
